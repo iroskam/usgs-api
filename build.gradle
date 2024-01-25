@@ -1,0 +1,9 @@
+/*
+ * Build client library for USGS API.
+ */
+
+apply plugin: 'java'
+
+repositories {
+    jcenter()
+}
