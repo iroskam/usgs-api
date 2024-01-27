@@ -31,11 +31,23 @@ public class USGSClient {
         return http.send(req,BodyHandlers.ofString()).body();
     }
 
+    /**
+     * Calls {@link #inBounds(String, String, Format)} composing the bounds parameter from the argument edges 
+     * with srid 4326(WGS 84)
+     * @param xmin
+     * @param ymin
+     * @param xmax
+     * @param ymax
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public String inBounds(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax) throws IOException, InterruptedException{
-        String bounds = ymin.toPlainString();
-        bounds += ","+xmin.toPlainString();
-        bounds += ","+ymax.toPlainString();
+        String bounds = xmin.toPlainString();
+        bounds += ","+ymin.toPlainString();
         bounds += ","+xmax.toPlainString();
+        bounds += ","+ymax.toPlainString();
+        // bounds requires xmin,ymin,xmax,ymax
         return inBounds(bounds, "4326", Formats.JSON);
     }
 
@@ -46,6 +58,7 @@ public class USGSClient {
      */
     public String inBounds(String bounds, String srid, Format format) throws IOException, InterruptedException{
         String qString = "?";
+        System.out.println(bounds);
         qString += "bounds="+bounds; //-132.18737,55.51866,-131.87356,55.715177
         qString += "&srid="+srid;
         qString += "&format="+format.format();
@@ -57,17 +70,63 @@ public class USGSClient {
     }
 
     /**
-     * Given a geographic location or bounding rectagle, provides links to individual data records that are near the location given or within the bounding rectangle.
+     * 
+     * @param x
+     * @param y
+     * @param d
+     * @param xmin
+     * @param ymin
+     * @param xmax
+     * @param ymax
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
      */
-    public void nearPoint(){
+    public String nearPoint(BigDecimal x, BigDecimal y, int d, BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax) throws IOException, InterruptedException{
+        return nearPoint(x,y,d,xmin,ymin,xmax,ymax, Formats.JSON);
+    }
 
+    /**
+     * Given a geographic location or bounding rectagle, provides links to individual data records that are near the location given or within the bounding rectangle.
+     *
+     * @param x
+     * @param y
+     * @param d
+     * @param xmin
+     * @param ymin
+     * @param xmax
+     * @param ymax
+     * @param format
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public String nearPoint(BigDecimal x, BigDecimal y, int d, BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format format) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "x="+x.toPlainString();
+        qString += "&y="+y.toPlainString();
+        qString += "&d="+d;
+        qString += "&xmin="+xmin.toPlainString();
+        qString += "&ymin="+ymin.toPlainString();
+        qString += "&xmax="+xmax.toPlainString();
+        qString += "&ymax="+ymax.toPlainString();
+        qString += "&format="+format.format();
+
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/general/near-point.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**
      * Given a thesaurus term identifier, returns catalog records of scientific data resources pertinent to the category identified by the thesaurus term.
      */
     public void recordsMatching(){
+        // TODO https://mrdata.usgs.gov/catalog/api.php?id=6
+    }
 
+    public String mrdsSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax) throws IOException, InterruptedException{
+        return mrdsSearchBBox(xmin,ymin,xmax,ymax,null,Formats.JSON);
     }
 
     /**
@@ -81,7 +140,8 @@ public class USGSClient {
         qString += "&ymin="+ymin.toPlainString();
         qString += "&xmax="+xmax.toPlainString();
         qString += "&ymax="+ymax.toPlainString();
-        qString += "&com="+com.code();
+        if(com!=null)
+            qString += "&com="+com.code();
         qString += "&f="+f.format();
         
         HttpRequest.Builder req = HttpRequest.newBuilder()
@@ -92,9 +152,20 @@ public class USGSClient {
     
     /**
      * Given a geographic bounding rectangle, returns complete data for NURE records located withing that area.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void nureSearchBBox(){
-
+    public String nureSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "xmin="+xmin.toPlainString();
+        qString += "&ymin="+ymin.toPlainString();
+        qString += "&xmax="+xmax.toPlainString();
+        qString += "&ymax="+ymax.toPlainString();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/nure/sediment/search-bbox.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**
