@@ -151,11 +151,11 @@ public class USGSClient {
     }
     
     /**
-     * Given a geographic bounding rectangle, returns complete data for NURE records located withing that area.
+     * Given a geographic bounding rectangle, returns complete data for NURE sediment records located withing that area.
      * @throws InterruptedException
      * @throws IOException
      */
-    public String nureSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format f) throws IOException, InterruptedException{
+    public String nureSedimentSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format f) throws IOException, InterruptedException{
         String qString = "?";
         qString += "xmin="+xmin.toPlainString();
         qString += "&ymin="+ymin.toPlainString();
@@ -169,52 +169,142 @@ public class USGSClient {
     }
 
     /**
-     * Given a geographic bounding rectangle, returns complete data for NGDB records located withing that area.
+     * Given a geographic bounding rectangle, returns complete data for NURE water records located withing that area.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void ngbdSearchBBox(){
+    public String nureWaterSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "xmin="+xmin.toPlainString();
+        qString += "&ymin="+ymin.toPlainString();
+        qString += "&xmax="+xmax.toPlainString();
+        qString += "&ymax="+ymax.toPlainString();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/nure/water/search-bbox.php"+qString))
+            .GET();
+        return send(req);
+    }
 
+    /**
+     * Given a geographic bounding rectangle, returns complete data for NGDB records located withing that area.
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public String ngbdSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "xmin="+xmin.toPlainString();
+        qString += "&ymin="+ymin.toPlainString();
+        qString += "&xmax="+xmax.toPlainString();
+        qString += "&ymax="+ymax.toPlainString();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/ngdb/rock/search-bbox.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**
      * Given a geographic bounding rectangle, returns complete data for NGS records located withing that area.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void ngsSearchBBox(){
-
+    public String ngsSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "xmin="+xmin.toPlainString();
+        qString += "&ymin="+ymin.toPlainString();
+        qString += "&xmax="+xmax.toPlainString();
+        qString += "&ymax="+ymax.toPlainString();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/geochem/search-bbox.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**
      * Given the name of a mine, prospect, or occurence, returns MRDS data records of sites whose names match.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void mrdsSearchByName(){
-
+    public String mrdsSearchByName(String q, Relation r, State st, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "q="+q;
+        qString += "&r="+r.rel();
+        qString += "&st="+st.abrv();
+        qString += "&srs="+"EPSG:3857";
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/mrds/search-by-name.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**
      * Given the name of a mine, prospect, or occurence, returns data ARDF records of sites whose names match.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void ardfSearchByName(){
-        
+    public String ardfSearchByName(String q, Relation r, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "q="+q;
+        qString += "&r="+r.rel();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/mrds/search-by-name.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**
      * Given the name of a mine, prospect, or occurence, returns VMS data records of sites whose names match.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void vmsSearchByName(){
-        
+    public String vmsSearchByName(String q, Relation r, State st, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "q="+q;
+        qString += "&r="+r.rel();
+        qString += "&st="+st.abrv();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/vms/search-by-name.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**
      * Given the name of a mine, prospect, or occurence, returns "Sediment-hosted Zn-Pb deposits" data records of sites whose names match.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void znpbSearchByName(){
-        
+    public String znpbSearchByName(String q, Relation r, State st, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "q="+q;
+        qString += "&r="+r.rel();
+        qString += "&st="+st.abrv();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/sedznpb/search-by-name.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**
      * Given the name of a mine, prospect, or occurence, returns "SedEx-MVT deposits" data records of sites whose names match.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void mvtSearchByName(){
-        
+    public String mvtSearchByName(String q, Relation r, State st, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "q="+q;
+        qString += "&r="+r.rel();
+        qString += "&st="+st.abrv();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/sedexmvt/search-by-name.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**

@@ -1,0 +1,56 @@
+package pub.usgs.client;
+
+record State(String abrv){};
+
+public class States {
+    public static final State AL = new State("AL");
+    public static final State AK = new State("AK");
+    public static final State AZ = new State("AZ");
+    public static final State AR = new State("AR");
+    public static final State CA = new State("CA");
+    public static final State CO = new State("CO");
+    public static final State CT = new State("CT");
+    public static final State DE = new State("DE");
+    public static final State FL = new State("FL");
+    public static final State GA = new State("GA");
+    public static final State HI = new State("HI");
+    public static final State ID = new State("ID");
+    public static final State IL = new State("IL");
+    public static final State IN = new State("IN");
+    public static final State IA = new State("IA");
+    public static final State KS = new State("KS");
+    public static final State KY = new State("KY");
+    public static final State LA = new State("LA");
+    public static final State ME = new State("ME");
+    public static final State MD = new State("MD");
+    public static final State MA = new State("MA");
+    public static final State MI = new State("MI");
+    public static final State MN = new State("MN");
+    public static final State MS = new State("MS");
+    public static final State MO = new State("MO");
+    public static final State MT = new State("MT");
+    public static final State NE = new State("NE");
+    public static final State NV = new State("NV");
+    public static final State NH = new State("NH");
+    public static final State NJ = new State("NJ");
+    public static final State NM = new State("NM");
+    public static final State NY = new State("NY");
+    public static final State NC = new State("NC");
+    public static final State ND = new State("ND");
+    public static final State OH = new State("OH");
+    public static final State OK = new State("OK");
+    public static final State OR = new State("OR");
+    public static final State PA = new State("PA");
+    public static final State RI = new State("RI");
+    public static final State SC = new State("SC");
+    public static final State SD = new State("SD");
+    public static final State TN = new State("TN");
+    public static final State TX = new State("TX");
+    public static final State UT = new State("UT");
+    public static final State VT = new State("VT");
+    public static final State VA = new State("VA");
+    public static final State WA = new State("WA");
+    public static final State WV = new State("WV");
+    public static final State WI = new State("WI");
+    public static final State WY = new State("WY");
+}
