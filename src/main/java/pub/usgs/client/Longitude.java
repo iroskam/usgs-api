@@ -1,24 +1,24 @@
-package pub.usgs.mrds;
+package pub.usgs.client;
 
 import java.math.BigDecimal;
 
 /**
- * Class for latitude ordinate.
+ * Class for longitude oridinate.
  */
-public class Latitude{
-    public static final int MAXIMUM = 90;
-    public static final int MINIUMUM = -90;
+public class Longitude{
+    public static final int MAXIMUM = 180;
+    public static final int MINIUMUM = -180;
     
     private int degrees;
     private int minutes;
     private int seconds;
 
 
-    public Latitude(String latitude){
-        // parse string latitute to degrees, minutes, seconds
+    public Longitude(String longitude){
+        // parse string longitude to degrees, minutes, seconds
     }
 
-    public Latitude(int degrees, int minutes, int seconds){
+    public Longitude(int degrees, int minutes, int seconds){
         this.degrees = degrees;
         this.minutes = minutes;
         this.seconds = seconds;
