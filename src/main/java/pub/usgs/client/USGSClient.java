@@ -309,61 +309,140 @@ public class USGSClient {
 
     /**
      * Given the name of a mine, prospect, or occurence, returns "Porphyry Cu deposits" data records of sites whose names match.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void porcuSearchByName(){
-        
+    public String porcuSearchByName(String q, Relation r, State st, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "q="+q;
+        qString += "&r="+r.rel();
+        qString += "&st="+st.abrv();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/porcu/search-by-name.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**
      * Given the name of a mine, prospect, or occurence, returns "Sediment-hosted Cu deposits" data records of sites whose names match.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void sedcuSearchByName(){
-        
+    public String sedcuSearchByName(String q, Relation r, State st, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "q="+q;
+        qString += "&r="+r.rel();
+        qString += "&st="+st.abrv();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/sedcu/search-by-name.php"+qString))
+            .GET();
+        return send(req);
     }
-
 
     /**
      * Given the name of a mine, prospect, or occurence, returns "Ni-Cr PGE deposits" data records of sites whose names match.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void nicrSearchByName(){
-        
+    public String nicrSearchByName(String q, Relation r, State st, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "q="+q;
+        qString += "&r="+r.rel();
+        qString += "&st="+st.abrv();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/nicrpge/search-by-name.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**
      * Given the name of a mine, prospect, or occurence, returns "Carbonatite deposits" data records of sites whose names match.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void carbonatiteSearchByName(){
-        
+    public String carbonatiteSearchByName(String q, Relation r, State st, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "q="+q;
+        qString += "&r="+r.rel();
+        qString += "&st="+st.abrv();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/carbonatite/search-by-name.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**
      * Given the name of a mine, prospect, or occurence, returns "REE deposits" data records of sites whose names match.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void reeSearchByName(){
-        
+    public String reeSearchByName(String q, Relation r, State st, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "q="+q;
+        qString += "&r="+r.rel();
+        qString += "&st="+st.abrv();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/ree/search-by-name.php"+qString))
+            .GET();
+        return send(req);
     }
 
 
     /**
-     * Given the name of a mine, prospect, or occurence, returns "NNi-Co laterite deposits" data records of sites whose names match.
+     * Given the name of a mine, prospect, or occurence, returns "Ni-Co laterite deposits" data records of sites whose names match.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void nicoSearchByName(){
-        
+    public String nicoSearchByName(String q, Relation r, State st, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "q="+q;
+        qString += "&r="+r.rel();
+        qString += "&st="+st.abrv();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/laterite/search-by-name.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**
      * Given the name of a mine, prospect, or occurence, returns "Phosphate deposit records" data records of sites whose names match.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void phosphateSearchByName(){
-        
+    public String phosphateSearchByName(String q, Relation r, State st, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "q="+q;
+        qString += "&r="+r.rel();
+        qString += "&st="+st.abrv();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/phosphate/search-by-name.php"+qString))
+            .GET();
+        return send(req);
     }
 
 
     /**
      * Given the name of a mine, prospect, or occurence, returns "Podiform Chromite deposits" data records of sites whose names match.
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void podchromeSearchByName(){
-        
+    public String podchromeSearchByName(String q, Relation r, State st, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "q="+q;
+        qString += "&r="+r.rel();
+        qString += "&st="+st.abrv();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/podchrome/search-by-name.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**
