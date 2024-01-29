@@ -10,6 +10,12 @@ import java.net.http.HttpClient.Version;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 
+
+/**
+ * A Java client for interacting with USGS API endpoints. 
+ * <br><br>
+ * https://mrdata.usgs.gov/catalog/api.php
+ */
 public class USGSClient {
     private static final String USER_AGENT = "USGS Java Client";
     private HttpClient http;
@@ -448,17 +454,179 @@ public class USGSClient {
     /**
      * SGMC map unit name at a geographic location.
      * Given a geographic point location, returns as text the name and database identifier of the geologic unit in which the point lies.
+     * @param x Geographic longitude in decimal degrees with datum WGS84, west longitudes negative
+     * @param y Geographic latitude in decimal degrees with datum WGS84, south latitudes negative
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void pointUnit(){
-        
+    public String pointUnit(BigDecimal x, BigDecimal y) throws IOException, InterruptedException{
+        return pointUnit(x,y,"n");
+    }
+
+    /**
+     * SGMC map unit name at a geographic location.
+     * Given a geographic point location, returns as text the name and database identifier of the geologic unit in which the point lies.
+     * @param x Geographic longitude in decimal degrees with datum WGS84, west longitudes negative
+     * @param y Geographic latitude in decimal degrees with datum WGS84, south latitudes negative
+     * @param q Type of query: u for unit link, n for unit name (default), b for both
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public String pointUnit(BigDecimal x, BigDecimal y, String q) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "x="+x.toPlainString();
+        qString += "y="+y.toPlainString();
+        qString += "&q="+q;
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/geology/state/point-unit.php"+qString))
+            .GET();
+        return send(req);
     }
 
     /**
      * Given a geologic unit identifier, returns descriptive information about the unit.
+     * @param unit Unique identifier for a geologic unit, a value of unit_link from the units table of the SGMC relational database
+     * @param f XML or JSON if either of those formats is desired, otherwise the XML will be transformed into HTML by the server 
+     * @throws InterruptedException
+     * @throws IOException
      */
-    public void sgmcUnit(){
-        
+    public String sgmcUnit(String unit, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "unit="+unit;
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/geology/state/point-unit.php"+qString))
+            .GET();
+        return send(req);
+    }
+    
+    /**
+     * Given a geologic unit identifier, returns descriptive information about the unit.
+     * @param x Geographic longitude in decimal degrees with datum WGS84, west longitudes negative
+     * @param y Geographic latitude in decimal degrees with datum WGS84, south latitudes negative
+     * @param f XML or JSON if either of those formats is desired, otherwise the XML will be transformed into HTML by the server 
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public String sgmcUnit(BigDecimal x, BigDecimal y, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "x="+x.toPlainString();
+        qString += "&y="+y.toPlainString();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/geology/state/sgmc-unit.php"+qString))
+            .GET();
+        return send(req);
     }
 
-    
+    /**
+     * Soil geochemical landscape samples within a geographic rectangle.
+     * @param xmin West bounding coordinate in decimal degrees with WGS84 datum, west longitude negative
+     * @param ymin South bounding coordinate in decimal degrees with WGS84 datum, south latitude negative
+     * @param xmax East bounding coordinate in decimal degrees with WGS84 datum, west longitude negative
+     * @param ymax North bounding coordinate in decimal degrees with WGS84 datum, south latitude negative
+     * @param f XML (default), JSON or HTML output
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public String geochemSampleSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "xmin="+xmin.toPlainString();
+        qString += "&ymin="+ymin.toPlainString();
+        qString += "&xmax="+xmax.toPlainString();
+        qString += "&ymax="+ymax.toPlainString();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/ds-801/search-bbox.php"+qString))
+            .GET();
+        return send(req);
+    }
+
+    /**
+     * Alaska geochemical samples within a geographic rectangle. Given a geographic bounding rectangle, returns complete data for records located within that area. Includes best-value estimates for each analyzed chemical element.
+     * @param xmin West bounding coordinate in decimal degrees with WGS84 datum, west longitude negative
+     * @param ymin South bounding coordinate in decimal degrees with WGS84 datum, south latitude negative
+     * @param xmax East bounding coordinate in decimal degrees with WGS84 datum, west longitude negative
+     * @param ymax North bounding coordinate in decimal degrees with WGS84 datum, south latitude negative
+     * @param media Type of material analyzed: sediment, soil, rock, concentrate, mineral
+     * @param f XML (default), JSON or HTML output
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public String agdbSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Medium media, Format f) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "xmin="+xmin.toPlainString();
+        qString += "&ymin="+ymin.toPlainString();
+        qString += "&xmax="+xmax.toPlainString();
+        qString += "&ymax="+ymax.toPlainString();
+        qString += "&media="+media.medium();
+        qString += "&f="+f.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/agdb/search-bbox.php"+qString))
+            .GET();
+        return send(req);
+    }
+
+    /**
+     * Geographic areas intersecting a bounding box. Given a bounding box, return the well known geographic areas that intersect the box. Coordinates will be interpreted as geographic latitude and longitude NAD83.
+     * @param xmin West bounding coordinate, in decimal degrees NAD83, west longitudes negative.
+     * @param ymin East bounding coordinate, in decimal degrees NAD83, west longitudes negative.
+     * @param xmax North bounding coordinate, in decimal degrees NAD83, south latitudes negative.
+     * @param ymax South bounding coordinate, in decimal degrees NAD83, south latitudes negative. 
+     * @param format XML, HTML, or JSON, not case sensitive
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public String geoAreaIntersectBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format format) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "xmin="+xmin.toPlainString();
+        qString += "&ymin="+ymin.toPlainString();
+        qString += "&xmax="+xmax.toPlainString();
+        qString += "&ymax="+ymax.toPlainString();
+        qString += "&format="+format.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/ds-801/search-bbox.php"+qString))
+            .GET();
+        return send(req);
+    }
+
+    /**
+     * Catalog record details. Given a catalog record identifier, show citation information, category terms, bounding coordinates, OGC web services, download links, and browse graphics.
+     * @param cite
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public String catalogRecord(int cite) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "cite="+cite;
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/catalog/record.php"+qString))
+            .GET();
+        return send(req);
+    }
+
+    /**
+     * Geographic areas containing a point. Given a point location, return the well known geographic areas that contain the point. Coordinates will be interpreted as geographic latitude and longitude NAD83.
+     * @param latitude Geographic latitude, decimal degrees NAD83, south latitudes negative.
+     * @param longitude Geographic longitude, decimal degrees NAD83, west longitudes negative.
+     * @param format XML, HTML, or JSON, not case sensitive
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public String geoAreaContainingPoint(BigDecimal latitude, BigDecimal longitude, Format format) throws IOException, InterruptedException{
+        String qString = "?";
+        qString += "latitude="+latitude.toPlainString();
+        qString += "&longitude="+longitude.toPlainString();
+        qString += "&format="+format.format();
+        HttpRequest.Builder req = HttpRequest.newBuilder()
+            .uri(URI.create("https://mrdata.usgs.gov/catalog/record.php"+qString))
+            .GET();
+        return send(req);
+    }
 }
