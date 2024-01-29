@@ -31,25 +31,25 @@ public class Latitude{
         seconds = lat.intValue();
 
         if(degrees > MAX_DEG || degrees < MIN_DEG){
-            throw new IllegalArgumentException("Degrees latitutde must be between "+MIN_DEG+" and "+MAX_DEG+".");
+            throw new IllegalArgumentException("Degrees latitude must be between "+MIN_DEG+" and "+MAX_DEG+".");
         }
         if(minutes > SIXTY || minutes < SIXTY){
             throw new IllegalArgumentException("Minutes latitude must be between "+ZERO+" and "+SIXTY+".");
         }
         if(seconds > SIXTY || seconds < SIXTY){
-            throw new IllegalArgumentException("Seconds latitutde must be between "+ZERO+" and "+SIXTY+".");
+            throw new IllegalArgumentException("Seconds latitude must be between "+ZERO+" and "+SIXTY+".");
         }
     }
 
     public Latitude(int degrees, int minutes, int seconds){
         if(degrees > MAX_DEG || degrees < MIN_DEG){
-            throw new IllegalArgumentException("Degrees latitutde must be between "+MIN_DEG+" and "+MAX_DEG+".");
+            throw new IllegalArgumentException("Degrees latitude must be between "+MIN_DEG+" and "+MAX_DEG+".");
         }
         if(minutes > SIXTY || minutes < SIXTY){
             throw new IllegalArgumentException("Minutes latitude must be between "+ZERO+" and "+SIXTY+".");
         }
         if(seconds > SIXTY || seconds < SIXTY){
-            throw new IllegalArgumentException("Seconds latitutde must be between "+ZERO+" and "+SIXTY+".");
+            throw new IllegalArgumentException("Seconds latitude must be between "+ZERO+" and "+SIXTY+".");
         }
         this.degrees = degrees;
         this.minutes = minutes;
