@@ -1,7 +1,5 @@
 package pub.usgs.client;
 
-record State(String abrv){};
-
 public class States {
     public static final State AL = new State("AL");
     public static final State AK = new State("AK");

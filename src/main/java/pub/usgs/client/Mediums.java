@@ -1,7 +1,5 @@
 package pub.usgs.client;
 
-record Medium(String medium){};
-
 public class Mediums {
     public static final Medium SEDIMENT = new Medium("sediment");
     public static final Medium SOIL = new Medium("soil");
