@@ -26,6 +26,7 @@ public class Longitude{
         lng = lng.subtract(new BigDecimal(degrees));
         lng = lng.multiply(sixty);
         minutes = lng.intValue();
+        lng = lng.subtract(new BigDecimal(minutes));
         lng = lng.multiply(sixty);
         seconds = lng.intValue();
 
