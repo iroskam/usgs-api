@@ -35,10 +35,6 @@ public class Latitude{
         lat = lat.multiply(sixty);
         seconds = lat.doubleValue();
 
-        System.out.println(degrees);
-        System.out.println(minutes);
-        System.out.println(seconds);
-
         if(degrees < MIN_DEG || degrees > MAX_DEG){
             throw new IllegalArgumentException("Degrees latitude must be between "+MIN_DEG+" and "+MAX_DEG+".");
         }
