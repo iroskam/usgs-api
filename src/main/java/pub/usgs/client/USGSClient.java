@@ -48,11 +48,11 @@ public class USGSClient {
      * @throws IOException
      * @throws InterruptedException
      */
-    public String inBounds(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax) throws IOException, InterruptedException{
-        String bounds = xmin.toPlainString();
-        bounds += ","+ymin.toPlainString();
-        bounds += ","+xmax.toPlainString();
-        bounds += ","+ymax.toPlainString();
+    public String inBounds(Longitude xmin, Latitude ymin, Longitude xmax, Latitude ymax) throws IOException, InterruptedException{
+        String bounds = xmin.toString();
+        bounds += ","+ymin.toString();
+        bounds += ","+xmax.toString();
+        bounds += ","+ymax.toString();
         // bounds requires xmin,ymin,xmax,ymax
         return inBounds(bounds, "4326", Formats.JSON);
     }
@@ -88,7 +88,7 @@ public class USGSClient {
      * @throws IOException
      * @throws InterruptedException
      */
-    public String nearPoint(BigDecimal x, BigDecimal y, int d, BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax) throws IOException, InterruptedException{
+    public String nearPoint(Longitude x, Latitude y, int d, Longitude xmin, Latitude ymin, Longitude xmax, Latitude ymax) throws IOException, InterruptedException{
         return nearPoint(x,y,d,xmin,ymin,xmax,ymax, Formats.JSON);
     }
 
@@ -107,15 +107,15 @@ public class USGSClient {
      * @throws InterruptedException
      * @throws IOException
      */
-    public String nearPoint(BigDecimal x, BigDecimal y, int d, BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format format) throws IOException, InterruptedException{
+    public String nearPoint(Longitude x, Latitude y, int d, Longitude xmin, Latitude ymin, Longitude xmax, Latitude ymax, Format format) throws IOException, InterruptedException{
         String qString = "?";
-        qString += "x="+x.toPlainString();
-        qString += "&y="+y.toPlainString();
+        qString += "x="+x.toString();
+        qString += "&y="+y.toString();
         qString += "&d="+d;
-        qString += "&xmin="+xmin.toPlainString();
-        qString += "&ymin="+ymin.toPlainString();
-        qString += "&xmax="+xmax.toPlainString();
-        qString += "&ymax="+ymax.toPlainString();
+        qString += "&xmin="+xmin.toString();
+        qString += "&ymin="+ymin.toString();
+        qString += "&xmax="+xmax.toString();
+        qString += "&ymax="+ymax.toString();
         qString += "&format="+format.format();
 
         HttpRequest.Builder req = HttpRequest.newBuilder()
@@ -131,7 +131,7 @@ public class USGSClient {
         // TODO https://mrdata.usgs.gov/catalog/api.php?id=6
     }
 
-    public String mrdsSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax) throws IOException, InterruptedException{
+    public String mrdsSearchBBox(Longitude xmin, Latitude ymin, Longitude xmax, Latitude ymax) throws IOException, InterruptedException{
         return mrdsSearchBBox(xmin,ymin,xmax,ymax,null,Formats.JSON);
     }
 
@@ -140,12 +140,12 @@ public class USGSClient {
      * @throws InterruptedException 
      * @throws IOException 
      */
-    public String mrdsSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Commodity com, Format f) throws IOException, InterruptedException{
+    public String mrdsSearchBBox(Longitude xmin, Latitude ymin, Longitude xmax, Latitude ymax, Commodity com, Format f) throws IOException, InterruptedException{
         String qString = "?";
-        qString += "xmin="+xmin.toPlainString();
-        qString += "&ymin="+ymin.toPlainString();
-        qString += "&xmax="+xmax.toPlainString();
-        qString += "&ymax="+ymax.toPlainString();
+        qString += "xmin="+xmin.toString();
+        qString += "&ymin="+ymin.toString();
+        qString += "&xmax="+xmax.toString();
+        qString += "&ymax="+ymax.toString();
         if(com!=null)
             qString += "&com="+com.code();
         qString += "&f="+f.format();
@@ -161,12 +161,12 @@ public class USGSClient {
      * @throws InterruptedException
      * @throws IOException
      */
-    public String nureSedimentSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format f) throws IOException, InterruptedException{
+    public String nureSedimentSearchBBox(Longitude xmin, Latitude ymin, Longitude xmax, Latitude ymax, Format f) throws IOException, InterruptedException{
         String qString = "?";
-        qString += "xmin="+xmin.toPlainString();
-        qString += "&ymin="+ymin.toPlainString();
-        qString += "&xmax="+xmax.toPlainString();
-        qString += "&ymax="+ymax.toPlainString();
+        qString += "xmin="+xmin.toString();
+        qString += "&ymin="+ymin.toString();
+        qString += "&xmax="+xmax.toString();
+        qString += "&ymax="+ymax.toString();
         qString += "&f="+f.format();
         HttpRequest.Builder req = HttpRequest.newBuilder()
             .uri(URI.create("https://mrdata.usgs.gov/nure/sediment/search-bbox.php"+qString))
@@ -179,12 +179,12 @@ public class USGSClient {
      * @throws InterruptedException
      * @throws IOException
      */
-    public String nureWaterSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format f) throws IOException, InterruptedException{
+    public String nureWaterSearchBBox(Longitude xmin, Latitude ymin, Longitude xmax, Latitude ymax, Format f) throws IOException, InterruptedException{
         String qString = "?";
-        qString += "xmin="+xmin.toPlainString();
-        qString += "&ymin="+ymin.toPlainString();
-        qString += "&xmax="+xmax.toPlainString();
-        qString += "&ymax="+ymax.toPlainString();
+        qString += "xmin="+xmin.toString();
+        qString += "&ymin="+ymin.toString();
+        qString += "&xmax="+xmax.toString();
+        qString += "&ymax="+ymax.toString();
         qString += "&f="+f.format();
         HttpRequest.Builder req = HttpRequest.newBuilder()
             .uri(URI.create("https://mrdata.usgs.gov/nure/water/search-bbox.php"+qString))
@@ -197,12 +197,12 @@ public class USGSClient {
      * @throws InterruptedException
      * @throws IOException
      */
-    public String ngbdSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format f) throws IOException, InterruptedException{
+    public String ngbdSearchBBox(Longitude xmin, Latitude ymin, Longitude xmax, Latitude ymax, Format f) throws IOException, InterruptedException{
         String qString = "?";
-        qString += "xmin="+xmin.toPlainString();
-        qString += "&ymin="+ymin.toPlainString();
-        qString += "&xmax="+xmax.toPlainString();
-        qString += "&ymax="+ymax.toPlainString();
+        qString += "xmin="+xmin.toString();
+        qString += "&ymin="+ymin.toString();
+        qString += "&xmax="+xmax.toString();
+        qString += "&ymax="+ymax.toString();
         qString += "&f="+f.format();
         HttpRequest.Builder req = HttpRequest.newBuilder()
             .uri(URI.create("https://mrdata.usgs.gov/ngdb/rock/search-bbox.php"+qString))
@@ -215,12 +215,12 @@ public class USGSClient {
      * @throws InterruptedException
      * @throws IOException
      */
-    public String ngsSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format f) throws IOException, InterruptedException{
+    public String ngsSearchBBox(Longitude xmin, Latitude ymin, Longitude xmax, Latitude ymax, Format f) throws IOException, InterruptedException{
         String qString = "?";
-        qString += "xmin="+xmin.toPlainString();
-        qString += "&ymin="+ymin.toPlainString();
-        qString += "&xmax="+xmax.toPlainString();
-        qString += "&ymax="+ymax.toPlainString();
+        qString += "xmin="+xmin.toString();
+        qString += "&ymin="+ymin.toString();
+        qString += "&xmax="+xmax.toString();
+        qString += "&ymax="+ymax.toString();
         qString += "&f="+f.format();
         HttpRequest.Builder req = HttpRequest.newBuilder()
             .uri(URI.create("https://mrdata.usgs.gov/geochem/search-bbox.php"+qString))
@@ -459,7 +459,7 @@ public class USGSClient {
      * @throws InterruptedException
      * @throws IOException
      */
-    public String pointUnit(BigDecimal x, BigDecimal y) throws IOException, InterruptedException{
+    public String pointUnit(Longitude x, Latitude y) throws IOException, InterruptedException{
         return pointUnit(x,y,"n");
     }
 
@@ -472,10 +472,10 @@ public class USGSClient {
      * @throws InterruptedException
      * @throws IOException
      */
-    public String pointUnit(BigDecimal x, BigDecimal y, String q) throws IOException, InterruptedException{
+    public String pointUnit(Longitude x, Latitude y, String q) throws IOException, InterruptedException{
         String qString = "?";
-        qString += "x="+x.toPlainString();
-        qString += "y="+y.toPlainString();
+        qString += "x="+x.toString();
+        qString += "y="+y.toString();
         qString += "&q="+q;
         HttpRequest.Builder req = HttpRequest.newBuilder()
             .uri(URI.create("https://mrdata.usgs.gov/geology/state/point-unit.php"+qString))
@@ -509,10 +509,10 @@ public class USGSClient {
      * @throws IOException
      * @throws InterruptedException
      */
-    public String sgmcUnit(BigDecimal x, BigDecimal y, Format f) throws IOException, InterruptedException{
+    public String sgmcUnit(Longitude x, Latitude y, Format f) throws IOException, InterruptedException{
         String qString = "?";
-        qString += "x="+x.toPlainString();
-        qString += "&y="+y.toPlainString();
+        qString += "x="+x.toString();
+        qString += "&y="+y.toString();
         qString += "&f="+f.format();
         HttpRequest.Builder req = HttpRequest.newBuilder()
             .uri(URI.create("https://mrdata.usgs.gov/geology/state/sgmc-unit.php"+qString))
@@ -531,12 +531,12 @@ public class USGSClient {
      * @throws IOException
      * @throws InterruptedException
      */
-    public String geochemSampleSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format f) throws IOException, InterruptedException{
+    public String geochemSampleSearchBBox(Longitude xmin, Latitude ymin, Longitude xmax, Latitude ymax, Format f) throws IOException, InterruptedException{
         String qString = "?";
-        qString += "xmin="+xmin.toPlainString();
-        qString += "&ymin="+ymin.toPlainString();
-        qString += "&xmax="+xmax.toPlainString();
-        qString += "&ymax="+ymax.toPlainString();
+        qString += "xmin="+xmin.toString();
+        qString += "&ymin="+ymin.toString();
+        qString += "&xmax="+xmax.toString();
+        qString += "&ymax="+ymax.toString();
         qString += "&f="+f.format();
         HttpRequest.Builder req = HttpRequest.newBuilder()
             .uri(URI.create("https://mrdata.usgs.gov/ds-801/search-bbox.php"+qString))
@@ -556,12 +556,12 @@ public class USGSClient {
      * @throws IOException
      * @throws InterruptedException
      */
-    public String agdbSearchBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Medium media, Format f) throws IOException, InterruptedException{
+    public String agdbSearchBBox(Longitude xmin, Latitude ymin, Longitude xmax, Latitude ymax, Medium media, Format f) throws IOException, InterruptedException{
         String qString = "?";
-        qString += "xmin="+xmin.toPlainString();
-        qString += "&ymin="+ymin.toPlainString();
-        qString += "&xmax="+xmax.toPlainString();
-        qString += "&ymax="+ymax.toPlainString();
+        qString += "xmin="+xmin.toString();
+        qString += "&ymin="+ymin.toString();
+        qString += "&xmax="+xmax.toString();
+        qString += "&ymax="+ymax.toString();
         qString += "&media="+media.medium();
         qString += "&f="+f.format();
         HttpRequest.Builder req = HttpRequest.newBuilder()
@@ -581,12 +581,12 @@ public class USGSClient {
      * @throws IOException
      * @throws InterruptedException
      */
-    public String geoAreaIntersectBBox(BigDecimal xmin, BigDecimal ymin, BigDecimal xmax, BigDecimal ymax, Format format) throws IOException, InterruptedException{
+    public String geoAreaIntersectBBox(Longitude xmin, Latitude ymin, Longitude xmax, Latitude ymax, Format format) throws IOException, InterruptedException{
         String qString = "?";
-        qString += "xmin="+xmin.toPlainString();
-        qString += "&ymin="+ymin.toPlainString();
-        qString += "&xmax="+xmax.toPlainString();
-        qString += "&ymax="+ymax.toPlainString();
+        qString += "xmin="+xmin.toString();
+        qString += "&ymin="+ymin.toString();
+        qString += "&xmax="+xmax.toString();
+        qString += "&ymax="+ymax.toString();
         qString += "&format="+format.format();
         HttpRequest.Builder req = HttpRequest.newBuilder()
             .uri(URI.create("https://mrdata.usgs.gov/ds-801/search-bbox.php"+qString))
@@ -621,8 +621,8 @@ public class USGSClient {
      */
     public String geoAreaContainingPoint(BigDecimal latitude, BigDecimal longitude, Format format) throws IOException, InterruptedException{
         String qString = "?";
-        qString += "latitude="+latitude.toPlainString();
-        qString += "&longitude="+longitude.toPlainString();
+        qString += "latitude="+latitude.toString();
+        qString += "&longitude="+longitude.toString();
         qString += "&format="+format.format();
         HttpRequest.Builder req = HttpRequest.newBuilder()
             .uri(URI.create("https://mrdata.usgs.gov/catalog/record.php"+qString))

@@ -1,5 +1,6 @@
 package pub.usgs.client;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.DisplayName;
@@ -25,5 +26,37 @@ public class TestLongitude {
 
         assertThrows(IllegalArgumentException.class, ()->new Longitude(180,0,1));
         assertThrows(IllegalArgumentException.class, ()->new Longitude(-180,0,1));
+    }
+
+    @Test
+    @DisplayName("String Constructor")
+    public void stringConstructor(){
+        Longitude longitude = new Longitude("131.87356");
+        assertEquals(131, longitude.getDegrees());
+        assertEquals(52, longitude.getMinutes());
+        assertEquals(24.816, longitude.getSeconds());
+        assertEquals("131.87356", longitude.toDecimalDegrees().toPlainString());
+
+        longitude = new Longitude("-131.87356");
+        assertEquals(-131, longitude.getDegrees());
+        assertEquals(52, longitude.getMinutes());
+        assertEquals(24.816, longitude.getSeconds());
+        assertEquals("-131.87356", longitude.toDecimalDegrees().toPlainString());
+    }
+
+    @Test
+    @DisplayName("DMS Constructor")
+    public void dmsConstructor(){
+        Longitude longitude = new Longitude(131,52,24.816);
+        assertEquals(131, longitude.getDegrees());
+        assertEquals(52, longitude.getMinutes());
+        assertEquals(24.816, longitude.getSeconds());
+        assertEquals("131.87356", longitude.toDecimalDegrees().toPlainString());
+
+        longitude = new Longitude(-131,52,24.816);
+        assertEquals(-131, longitude.getDegrees());
+        assertEquals(52, longitude.getMinutes());
+        assertEquals(24.816, longitude.getSeconds());
+        assertEquals("-131.87356", longitude.toDecimalDegrees().toPlainString());
     }
 }

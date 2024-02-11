@@ -3,21 +3,23 @@ import java.math.BigDecimal;
 
 import pub.usgs.client.Commodities;
 import pub.usgs.client.Formats;
+import pub.usgs.client.Longitude;
+import pub.usgs.client.Latitude;
 import pub.usgs.client.USGSClient;
 
 public class Test {
     public static void main(String... args){
         USGSClient client = new USGSClient();
 
-        BigDecimal xmax = new BigDecimal("-131.87356");
-        BigDecimal xmin = new BigDecimal("-132.18737");
-        BigDecimal ymax = new BigDecimal("55.715177");
-        BigDecimal ymin = new BigDecimal("55.51866");
+        // BigDecimal xmax = new BigDecimal("-131.87356");
+        // BigDecimal xmin = new BigDecimal("-132.18737");
+        // BigDecimal ymax = new BigDecimal("55.715177");
+        // BigDecimal ymin = new BigDecimal("55.51866");
         
-        // Longitude xmax = new Longitude("-131.87356");
-        // Longitude xmin = new Longitude("-132.18737");
-        // Latitude ymax = new Latitude("55.715177");
-        // Latitude ymin = new Latitude("55.51866");
+        Longitude xmax = new Longitude("-131.87356");
+        Longitude xmin = new Longitude("-132.18737");
+        Latitude ymax = new Latitude("55.715177");
+        Latitude ymin = new Latitude("55.51866");
         // -132.18737,55.51866,-131.87356,55.715177
         // ymin,xmin,ymax,xmax
         try {
